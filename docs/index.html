@@ -94,6 +94,13 @@ body{
   transition:background .15s ease, transform .15s ease;
 }
 .dot.active{background:var(--lime); transform:scale(1.25)}
+
+.content-link{
+  position:absolute; z-index:3;
+  cursor:pointer; border-radius:4px;
+  transition:background .15s ease;
+}
+.content-link:hover, .content-link:focus-visible{background:rgba(168,230,163,.16)}
 </style>
 </head>
 <body>
@@ -127,6 +134,8 @@ body{
   </button>
 
   <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <div id="content-links"></div>
 </div>
 
 <div class="nav-row">
@@ -142,8 +151,27 @@ const TOTAL = 10;
 const AUDIO = [];
 for(let i=1;i<=TOTAL;i++) AUDIO.push('audio/slide' + i + '.ogg');
 
+// real clickable hyperlink hotspots, matching the exact link positions
+// baked into the PDF (as % of the 1440x810 slide) — only slides 1 and 10
+// carry these links in the source deck.
+const CONTENT_LINKS = {
+  0: [
+    { url: 'https://github.com/preenithi-15/IQOO', left: 52.668, top: 69.739, width: 19.323, height: 4.722 },
+    { url: 'https://youtu.be/wUA6s3Jvt-o', left: 51.558, top: 78.007, width: 21.615, height: 4.259 },
+    { url: 'https://preenithi-15.github.io/IQOO/', left: 52.709, top: 84.778, width: 19.269, height: 4.299 },
+    { url: 'https://natura-hgb4.onrender.com/', left: 45.844, top: 91.548, width: 32.969, height: 4.259 },
+  ],
+  9: [
+    { url: 'https://github.com/preenithi-15/IQOO', left: 14.631, top: 72.947, width: 15.665, height: 3.828 },
+    { url: 'https://youtu.be/wUA6s3Jvt-o', left: 13.731, top: 79.707, width: 17.528, height: 3.444 },
+    { url: 'https://preenithi-15.github.io/IQOO/', left: 14.664, top: 85.140, width: 15.622, height: 3.484 },
+    { url: 'https://natura-hgb4.onrender.com/', left: 9.098, top: 90.627, width: 26.728, height: 3.453 },
+  ],
+};
+
 let current = 0;
 const audioEl = document.getElementById('audio-el');
+const contentLinksWrap = document.getElementById('content-links');
 const listenBtn = document.getElementById('listen-btn');
 const iconPlay = document.getElementById('icon-play');
 const iconPause = document.getElementById('icon-pause');
@@ -185,9 +213,29 @@ function goTo(i, updateHash){
   dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
   counter.textContent = (current+1) + ' / ' + TOTAL;
   loadAudioForSlide(current);
+  renderContentLinks(current);
   if(updateHash !== false){
     history.replaceState(null, '', '#slide-' + (current+1));
   }
+}
+
+function renderContentLinks(i){
+  contentLinksWrap.innerHTML = '';
+  const links = CONTENT_LINKS[i];
+  if(!links) return;
+  links.forEach(l => {
+    const a = document.createElement('a');
+    a.className = 'content-link';
+    a.href = l.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.left = l.left + '%';
+    a.style.top = l.top + '%';
+    a.style.width = l.width + '%';
+    a.style.height = l.height + '%';
+    a.setAttribute('aria-label', l.url);
+    contentLinksWrap.appendChild(a);
+  });
 }
 
 listenBtn.addEventListener('click', () => {
