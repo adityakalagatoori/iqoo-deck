@@ -62,20 +62,16 @@ h1.title{
   display:flex;align-items:center;justify-content:center;
 }
 .listen-icon svg{width:14px;height:14px}
-.listen-text{display:flex;flex-direction:column;line-height:1.15}
-.listen-text .l1{font-size:12.5px;font-weight:700;color:var(--cream);letter-spacing:.02em}
-.listen-text .l2{font-size:9.5px;color:var(--lime);letter-spacing:.03em}
+.listen-text{font-size:13px;font-weight:700;color:var(--cream);letter-spacing:.02em}
 .listen-btn.playing .listen-icon{animation:pulse 1.1s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(168,230,163,.55)}50%{box-shadow:0 0 0 7px rgba(168,230,163,0)}}
 
-.tap-chip{
-  position:absolute; top:-6px; right:150px;
-  background:rgba(9,20,12,.92); border:1px solid var(--lime);
-  color:var(--lime); font-size:9.5px; letter-spacing:.04em;
-  padding:4px 10px; border-radius:999px; white-space:nowrap;
-  pointer-events:none; z-index:5;
+.click-here{
+  position:absolute; top:8px; right:22px;
+  color:var(--lime); font-size:11px; letter-spacing:.02em;
+  pointer-events:none; z-index:6;
 }
-.arrow-svg{position:absolute; top:16px; right:150px; width:44px; height:26px; pointer-events:none; z-index:4}
+.arrow-svg{position:absolute; top:6px; right:18px; width:52px; height:14px; pointer-events:none; z-index:6}
 
 .progress-track{
   position:absolute; left:0; right:0; bottom:0; height:4px;
@@ -124,21 +120,18 @@ h1.title{
 
   <audio id="audio-el" preload="none"></audio>
 
-  <svg class="arrow-svg" viewBox="0 0 44 26" fill="none">
-    <path d="M2 4 C 14 4, 22 10, 34 18" stroke="#a8e6a3" stroke-width="1.6" fill="none"/>
-    <path d="M28 16 L34 18 L33 12" stroke="#a8e6a3" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <div class="click-here">click here</div>
+  <svg class="arrow-svg" viewBox="0 0 52 14" fill="none">
+    <path d="M46 2 C 32 1, 14 3, 5 12" stroke="#a8e6a3" stroke-width="1.8" fill="none"/>
+    <path d="M11 9 L5 12 L8 14" stroke="#a8e6a3" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  <div class="tap-chip">TAP TO HEAR US EXPLAIN</div>
 
   <button class="listen-btn" id="listen-btn" aria-label="Play team narration for this slide">
     <span class="listen-icon" id="listen-icon">
       <svg id="icon-play" viewBox="0 0 14 14" fill="#0e1a13"><path d="M2 1 L13 7 L2 13 Z"/></svg>
       <svg id="icon-pause" viewBox="0 0 14 14" fill="#0e1a13" style="display:none"><rect x="2" y="1" width="3.4" height="12"/><rect x="8.6" y="1" width="3.4" height="12"/></svg>
     </span>
-    <span class="listen-text">
-      <span class="l1" id="listen-label">LISTEN TO US</span>
-      <span class="l2">explain this slide</span>
-    </span>
+    <span class="listen-text" id="listen-label">LISTEN TO US</span>
   </button>
 
   <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
